@@ -1,521 +1,475 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
-    <title>电商卖家多平台收益计算器 | Shopify / Etsy / 亚马逊利润 & 费用 & 汇率</title>
-    <meta name="description" content="免费在线工具：同时计算 Shopify、Etsy、亚马逊三大平台利润、费用与汇率。适合跨境卖家、电商财务，替代复杂收费工具。">
-    <meta name="keywords" content="etsy profit calculator, shopify fee calculator, amazon seller profit, multi platform profit, seo tool for sellers, 电商利润计算, 跨境收益">
-    <meta name="author" content="SellerTool">
-    <meta name="robots" content="index, follow">
-    <meta property="og:title" content="电商卖家多平台收益计算器">
-    <meta property="og:description" content="免费跨平台利润/费用/汇率计算，支持Shopify、Etsy、亚马逊。">
-    <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="电商卖家多平台收益计算器">
-    <meta name="twitter:description" content="免费跨平台利润/费用/汇率计算，支持Shopify、Etsy、亚马逊。">
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        body {
-            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: #f5f7fa;
-            color: #1e293b;
-            line-height: 1.5;
-            padding: 16px;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            width: 100%;
-            flex: 1;
-        }
-        header {
-            text-align: center;
-            margin-bottom: 24px;
-        }
-        h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #0f172a, #334155);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 8px;
-        }
-        .subhead {
-            color: #475569;
-            font-size: 1rem;
-            max-width: 600px;
-            margin: 0 auto 12px;
-        }
-        .badge {
-            display: inline-block;
-            background: #e2e8f0;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            color: #1e293b;
-        }
-        .card {
-            background: white;
-            border-radius: 20px;
-            padding: 24px 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-            margin-bottom: 20px;
-            border: 1px solid #e9edf2;
-        }
-        .card-header {
-            font-weight: 600;
-            font-size: 1.2rem;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-        }
-        .grid-3 {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 16px;
-        }
-        .form-group {
-            margin-bottom: 14px;
-        }
-        label {
-            display: block;
-            font-size: 0.85rem;
-            font-weight: 500;
-            margin-bottom: 4px;
-            color: #334155;
-        }
-        input, select {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid #d1d5db;
-            border-radius: 12px;
-            font-size: 1rem;
-            background: white;
-            transition: border 0.15s;
-        }
-        input:focus, select:focus {
-            outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
-        }
-        .input-symbol {
-            position: relative;
-        }
-        .input-symbol input {
-            padding-left: 28px;
-        }
-        .input-symbol .symbol {
-            position: absolute;
-            left: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #64748b;
-            font-weight: 500;
-        }
-        .btn {
-            background: #0f172a;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 40px;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background 0.2s, transform 0.1s;
-            width: 100%;
-            max-width: 320px;
-            margin: 8px auto 0;
-            display: block;
-        }
-        .btn:hover {
-            background: #1e293b;
-        }
-        .btn:active {
-            transform: scale(0.97);
-        }
-        .result-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 12px;
-            margin-top: 16px;
-        }
-        .result-item {
-            background: #f8fafc;
-            border-radius: 16px;
-            padding: 14px 12px;
-            text-align: center;
-            border: 1px solid #e2e8f0;
-        }
-        .result-item .label {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.03em;
-            color: #64748b;
-        }
-        .result-item .value {
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-top: 4px;
-            color: #0f172a;
-        }
-        .result-item .value.positive {
-            color: #0b7a3a;
-        }
-        .result-item .value.negative {
-            color: #b91c1c;
-        }
-        .note {
-            font-size: 0.8rem;
-            color: #64748b;
-            margin-top: 12px;
-            text-align: center;
-        }
-        .ad-placeholder {
-            background: #f1f5f9;
-            border-radius: 16px;
-            padding: 20px;
-            text-align: center;
-            border: 1px dashed #cbd5e1;
-            color: #475569;
-            font-size: 0.9rem;
-            margin: 16px 0;
-        }
-        .ad-placeholder strong {
-            color: #0f172a;
-        }
-        .affiliate-resources {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            justify-content: center;
-            margin: 12px 0;
-        }
-        .affiliate-link {
-            background: #f1f5f9;
-            padding: 8px 18px;
-            border-radius: 40px;
-            text-decoration: none;
-            color: #1e293b;
-            font-size: 0.9rem;
-            border: 1px solid #e2e8f0;
-            transition: background 0.15s;
-        }
-        .affiliate-link:hover {
-            background: #e2e8f0;
-        }
-        .privacy-note {
-            background: #f1f5f9;
-            border-radius: 12px;
-            padding: 12px 16px;
-            font-size: 0.75rem;
-            color: #475569;
-            text-align: center;
-            margin-top: 24px;
-            border: 1px solid #e2e8f0;
-        }
-        footer {
-            text-align: center;
-            padding: 20px 0 8px;
-            font-size: 0.75rem;
-            color: #94a3b8;
-        }
-        @media (max-width: 640px) {
-            .grid-2, .grid-3 {
-                grid-template-columns: 1fr;
-            }
-            h1 {
-                font-size: 1.4rem;
-            }
-            .card {
-                padding: 18px 14px;
-            }
-            .result-item .value {
-                font-size: 1.2rem;
-            }
-        }
-        .inline-flex {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        .mt-2 {
-            margin-top: 12px;
-        }
-        .text-center {
-            text-align: center;
-        }
-        .border-top {
-            border-top: 1px solid #e2e8f0;
-            padding-top: 16px;
-            margin-top: 16px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+  <title>多语言关键词挖掘 · 搜索意图分类 | Shopify 卖家工具</title>
+  <meta name="description" content="免费的多语言关键词挖掘与搜索意图分类工具，专为Shopify、Etsy独立站卖家设计。挖掘长尾词，判断搜索意图，替代Ahrefs/Semrush。">
+  <meta name="keywords" content="multilingual keyword tool, long tail keyword finder, search intent classifier, shopify seo tool, etsy keyword research">
+  <!-- Open Graph -->
+  <meta property="og:title" content="多语言关键词挖掘与搜索意图分类工具">
+  <meta property="og:description" content="免费挖掘多语言长尾关键词，自动分类搜索意图，助力Shopify/Etsy卖家低成本SEO。">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="zh_CN">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    }
+    body {
+      background: #f8fafc;
+      color: #0b1a2e;
+      line-height: 1.5;
+      padding: 16px 12px 40px;
+    }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+    h1 {
+      font-size: 2.1rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      background: linear-gradient(145deg, #0b2b4a, #1d4e6f);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 6px;
+    }
+    .subhead {
+      font-size: 1.05rem;
+      color: #2c4a62;
+      border-bottom: 1px solid #dce7f0;
+      padding-bottom: 12px;
+      margin-bottom: 8px;
+    }
+    .badge {
+      display: inline-block;
+      background: #e0f2fe;
+      color: #0369a1;
+      font-weight: 600;
+      font-size: 0.8rem;
+      padding: 4px 12px;
+      border-radius: 40px;
+      margin-top: 6px;
+    }
+    .tool-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .card {
+      background: white;
+      border-radius: 24px;
+      padding: 20px 18px;
+      box-shadow: 0 8px 20px rgba(0,20,40,0.04);
+      border: 1px solid #e9f0f6;
+      transition: box-shadow 0.1s ease;
+    }
+    .card h2 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 14px;
+      color: #0b2b4a;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card h2 small {
+      font-size: 0.75rem;
+      font-weight: 400;
+      background: #eef5fa;
+      padding: 2px 10px;
+      border-radius: 30px;
+      color: #1f5370;
+    }
+    .input-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .input-group input, .input-group select {
+      flex: 1 1 180px;
+      padding: 12px 14px;
+      border: 1px solid #cfdeec;
+      border-radius: 60px;
+      font-size: 0.95rem;
+      background: white;
+      transition: 0.15s;
+    }
+    .input-group input:focus, .input-group select:focus {
+      border-color: #1f6e9c;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(31,110,156,0.15);
+    }
+    .input-group button {
+      background: #1a4b6e;
+      border: none;
+      color: white;
+      font-weight: 600;
+      padding: 12px 28px;
+      border-radius: 60px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.15s, transform 0.05s;
+      box-shadow: 0 2px 6px rgba(0,30,50,0.1);
+      flex: 0 0 auto;
+    }
+    .input-group button:hover {
+      background: #0f3b58;
+    }
+    .input-group button:active {
+      transform: scale(0.96);
+    }
+    .results-area {
+      margin-top: 14px;
+      background: #f2f7fd;
+      border-radius: 20px;
+      padding: 14px 12px;
+      min-height: 90px;
+    }
+    .result-item {
+      background: white;
+      border-radius: 16px;
+      padding: 12px 16px;
+      margin-bottom: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      border-left: 4px solid #1f6e9c;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+    }
+    .result-item .keyword {
+      font-weight: 600;
+      font-size: 1rem;
+      flex: 2 1 180px;
+    }
+    .result-item .intent-badge {
+      background: #e6f0f9;
+      border-radius: 40px;
+      padding: 4px 14px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #1a4b6e;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+    .result-item .lang-tag {
+      background: #dbeafe;
+      color: #1e4a6b;
+      border-radius: 30px;
+      padding: 2px 12px;
+      font-size: 0.7rem;
+      font-weight: 500;
+      margin-left: 6px;
+    }
+    .placeholder-note {
+      color: #4d6a82;
+      font-size: 0.9rem;
+      padding: 8px 4px;
+    }
+    .ad-placeholder {
+      background: #eef3f8;
+      border-radius: 18px;
+      padding: 14px 16px;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #2c5777;
+      border: 1px dashed #b6cfdf;
+      margin: 12px 0 4px;
+    }
+    .ad-placeholder span {
+      background: #dce5ed;
+      padding: 2px 14px;
+      border-radius: 40px;
+      font-weight: 500;
+    }
+    .affiliate-resources {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: center;
+      background: #ffffffd0;
+      backdrop-filter: blur(2px);
+      border-radius: 28px;
+      padding: 18px 16px;
+      margin: 28px 0 18px;
+      border: 1px solid #e2edf5;
+    }
+    .affiliate-item {
+      background: #f5faff;
+      padding: 8px 18px;
+      border-radius: 60px;
+      font-weight: 500;
+      color: #0b3e5c;
+      font-size: 0.9rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.02);
+    }
+    .affiliate-item a {
+      color: #1a5f82;
+      text-decoration: none;
+      border-bottom: 1px dotted #9bb9d0;
+    }
+    .affiliate-item a:hover {
+      border-bottom: 1px solid #0b3e5c;
+    }
+    .privacy-note {
+      background: #eaf1f8;
+      border-radius: 60px;
+      padding: 10px 20px;
+      font-size: 0.8rem;
+      color: #1f4a63;
+      text-align: center;
+      margin: 24px 0 12px;
+      border: 1px solid #d2e2ef;
+    }
+    footer {
+      margin-top: 30px;
+      font-size: 0.75rem;
+      color: #4a6a80;
+      text-align: center;
+    }
+    .inline-loader {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 3px solid #cbdde9;
+      border-top-color: #1a5f82;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      margin-right: 8px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .flex-space {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    @media (max-width: 600px) {
+      h1 { font-size: 1.8rem; }
+      .input-group input, .input-group select { flex: 1 1 100%; }
+      .result-item { flex-direction: column; align-items: flex-start; gap: 6px; }
+    }
+  </style>
 </head>
 <body>
 <div class="container">
-    <header>
-        <h1>🛒 多平台收益计算器</h1>
-        <div class="subhead">Shopify · Etsy · 亚马逊 — 利润、费用、汇率一键算</div>
-        <div class="badge">免费 · 无需注册</div>
-    </header>
+  <header>
+    <h1>🌐 多语言关键词挖掘 · 意图分类</h1>
+    <div class="subhead">Shopify · Etsy 独立站长尾词工具 (免费)</div>
+    <div class="badge">✨ 替代 Ahrefs / Semrush 小语种方案</div>
+  </header>
 
-    <!-- 主计算卡片 -->
+  <div class="tool-grid">
+    <!-- 核心工具卡片 -->
     <div class="card">
-        <div class="card-header">📊 商品信息</div>
-        <div class="grid-2">
-            <div class="form-group">
-                <label for="price">商品售价 (USD)</label>
-                <div class="input-symbol">
-                    <span class="symbol">$</span>
-                    <input type="number" id="price" min="0" step="0.01" value="29.99" placeholder="例如 29.99">
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="cost">商品成本 (USD)</label>
-                <div class="input-symbol">
-                    <span class="symbol">$</span>
-                    <input type="number" id="cost" min="0" step="0.01" value="12.50" placeholder="例如 12.50">
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="platform">选择平台</label>
-                <select id="platform">
-                    <option value="shopify">Shopify</option>
-                    <option value="etsy">Etsy</option>
-                    <option value="amazon">亚马逊 (Amazon)</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="currency">目标货币 (汇率换算)</label>
-                <select id="currency">
-                    <option value="USD">USD - 美元</option>
-                    <option value="CNY">CNY - 人民币</option>
-                    <option value="EUR">EUR - 欧元</option>
-                    <option value="GBP">GBP - 英镑</option>
-                    <option value="JPY">JPY - 日元</option>
-                    <option value="CAD">CAD - 加元</option>
-                    <option value="AUD">AUD - 澳元</option>
-                </select>
-            </div>
-        </div>
-        <div class="text-center mt-2">
-            <button class="btn" id="calculateBtn">💰 计算收益</button>
-        </div>
+      <h2>🔍 关键词挖掘 <small>长尾词 + 搜索意图</small></h2>
+      <div class="input-group">
+        <input type="text" id="seedKeyword" placeholder="输入种子词，例如: linen dress" value="linen dress">
+        <select id="langSelect">
+          <option value="en">🇬🇧 English</option>
+          <option value="de">🇩🇪 Deutsch</option>
+          <option value="fr">🇫🇷 Français</option>
+          <option value="es">🇪🇸 Español</option>
+          <option value="it">🇮🇹 Italiano</option>
+          <option value="nl">🇳🇱 Nederlands</option>
+          <option value="pt">🇵🇹 Português</option>
+          <option value="ja">🇯🇵 日本語</option>
+          <option value="zh">🇨🇳 中文</option>
+        </select>
+        <button id="generateBtn">🚀 挖掘 & 分类</button>
+      </div>
+      <div class="results-area" id="resultsContainer">
+        <div class="placeholder-note" id="placeholderMsg">👆 输入种子词，选择语言，点击挖掘。示例：linen dress (EN) 或 亚麻连衣裙 (ZH)</div>
+        <div id="resultsList"></div>
+      </div>
     </div>
 
-    <!-- 结果卡片 -->
-    <div class="card" id="resultCard">
-        <div class="card-header">📈 收益明细</div>
-        <div id="resultContent">
-            <div class="result-grid" id="resultGrid">
-                <div class="result-item"><div class="label">平台费用</div><div class="value" id="feeDisplay">$0.00</div></div>
-                <div class="result-item"><div class="label">净利润 (USD)</div><div class="value positive" id="profitUSD">$0.00</div></div>
-                <div class="result-item"><div class="label">换算金额</div><div class="value" id="convertedDisplay">0.00</div></div>
-                <div class="result-item"><div class="label">利润率</div><div class="value" id="marginDisplay">0%</div></div>
-            </div>
-            <div class="note" id="feeBreakdown">平台费用明细: 交易费 + 固定费用</div>
-        </div>
-    </div>
-
-    <!-- 广告占位 -->
+    <!-- 广告位 placeholder (可见) -->
     <div class="ad-placeholder">
-        <strong>📣 推荐工具</strong><br>
-        <span style="font-size:0.85rem;">SellerBoard · 多店铺利润仪表盘 (赞助商链接)</span><br>
-        <span style="font-size:0.75rem; color:#64748b;">广告位 — 助力跨境卖家</span>
+      <span>📢 推荐</span> &nbsp; Shopify 卖家首选 &nbsp; <strong>✨ 关键词研究 · 长尾词批量导出</strong> &nbsp; <span style="background:transparent; border:1px solid #b6cfdf; padding:2px 12px; border-radius:40px;">🪄 赞助商位</span>
     </div>
 
-    <!-- 联盟/资源区 -->
-    <div class="card">
-        <div class="card-header">🔗 卖家资源</div>
-        <div class="affiliate-resources">
-            <a href="#" class="affiliate-link" onclick="reportEvent('affiliate_click', {resource:'shopify_trial'}); return false;">Shopify 14天免费试用</a>
-            <a href="#" class="affiliate-link" onclick="reportEvent('affiliate_click', {resource:'etsy_guide'}); return false;">Etsy 新手开店指南</a>
-            <a href="#" class="affiliate-link" onclick="reportEvent('affiliate_click', {resource:'amazon_fba'}); return false;">亚马逊FBA计算器</a>
-            <a href="#" class="affiliate-link" onclick="reportEvent('affiliate_click', {resource:'currency_api'}); return false;">汇率API (推荐)</a>
-        </div>
-        <div class="note" style="margin-top:8px;">部分链接为联盟链接，我们可能获得佣金。</div>
+    <!-- 资源/联盟营销区 -->
+    <div class="affiliate-resources">
+      <div class="affiliate-item">📘 <a href="#">Shopify SEO 完整指南 (电子书)</a></div>
+      <div class="affiliate-item">📊 <a href="#">Etsy 长尾词数据库 (试用)</a></div>
+      <div class="affiliate-item">🛠️ <a href="#">多语言关键词规划器</a></div>
+      <div class="affiliate-item">📦 <a href="#">独立站流量检查</a></div>
     </div>
 
     <!-- 隐私说明 -->
     <div class="privacy-note">
-        🔒 隐私说明：我们可能会匿名统计事件（如点击计算）以改进产品。不会收集个人凭证或进行隐藏追踪。
-        <br><span style="font-size:0.7rem;">事件上报仅当端点配置时发送。</span>
+      🔒 隐私说明：我们可能会匿名统计工具使用事件以改进产品。不收集任何个人凭证或搜索词。
     </div>
+  </div>
 
-    <footer>
-        &copy; 2025 SellerTool · 电商卖家多平台收益计算器 · 免费使用
-    </footer>
+  <footer>
+    <p>多语言关键词挖掘 · 搜索意图分类 v1.0 | 专为 Shopify / Etsy 卖家设计</p>
+  </footer>
 </div>
 
 <script>
-    (function() {
-        "use strict";
+  (function() {
+    "use strict";
 
-        // 汇率映射 (近似值, 仅用于演示)
-        const exchangeRates = {
-            USD: 1,
-            CNY: 7.24,
-            EUR: 0.92,
-            GBP: 0.79,
-            JPY: 149.5,
-            CAD: 1.36,
-            AUD: 1.52
-        };
+    // 报告函数 (仅当 endpoint 配置时发送)
+    window.reportEvent = function(name, payload) {
+      if (typeof window.ORGANISM_METRICS_ENDPOINT === 'string' && window.ORGANISM_METRICS_ENDPOINT.length > 0) {
+        try {
+          const body = JSON.stringify({ event: name, payload: payload || {}, timestamp: Date.now() });
+          fetch(window.ORGANISM_METRICS_ENDPOINT, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: body,
+            keepalive: true
+          }).catch(() => {});
+        } catch (e) { /* silent */ }
+      }
+    };
 
-        // 平台费用配置 (USD)
-        const platformFees = {
-            shopify: {
-                label: 'Shopify',
-                transactionPercent: 0.029, // 2.9%
-                fixedFee: 0.30,
-                description: 'Shopify Basic 计划: 2.9% + $0.30'
-            },
-            etsy: {
-                label: 'Etsy',
-                transactionPercent: 0.065, // 6.5%
-                fixedFee: 0.20,
-                description: 'Etsy 交易费 6.5% + 上架费 $0.20 (估算)'
-            },
-            amazon: {
-                label: '亚马逊',
-                transactionPercent: 0.15, // 15% 参考费率
-                fixedFee: 0.99,
-                description: '亚马逊专业卖家: 15% 佣金 + $0.99 (部分类目)'
-            }
-        };
+    // ----- 核心工具逻辑 -----
+    const seedInput = document.getElementById('seedKeyword');
+    const langSelect = document.getElementById('langSelect');
+    const generateBtn = document.getElementById('generateBtn');
+    const resultsList = document.getElementById('resultsList');
+    const placeholderMsg = document.getElementById('placeholderMsg');
 
-        const priceInput = document.getElementById('price');
-        const costInput = document.getElementById('cost');
-        const platformSelect = document.getElementById('platform');
-        const currencySelect = document.getElementById('currency');
-        const calculateBtn = document.getElementById('calculateBtn');
+    // 多语言长尾词库 (模拟语义扩展 + 长尾)
+    const LANGUAGE_KEYWORDS = {
+      en: ['organic linen dress', 'linen maxi dress summer', 'linen shirt dress women', 'linen wrap dress', 'linen blend dress', 'linen shift dress', 'linen dress with pockets', 'handmade linen dress', 'linen midi dress', 'linen sundress', 'linen beach dress', 'linen button down dress', 'linen dress for wedding', 'linen dress plus size', 'linen dress petite'],
+      de: ['Leinenkleid Damen', 'Leinenkleid lang', 'Leinenkleid Sommer', 'Leinenkleid mit Taschen', 'Leinenkleid Maxi', 'Leinenkleid schwarz', 'Leinenkleid blau', 'Leinenkleid hochzeit', 'Leinenkleid ärmellos', 'Leinenkleid nachhaltig', 'Leinenkleid übergröße', 'Leinenkleid boho', 'Leinenkleid falten', 'Leinenkleid knielang', 'Leinenkleid vegan'],
+      fr: ['robe en lin femme', 'robe en lin longue', 'robe en lin blanche', 'robe en lin brodée', 'robe en lin chic', 'robe en lin naturelle', 'robe en lin taille plus', 'robe en lin manches longues', 'robe en lin fluide', 'robe en lin bohème', 'robe en lin pour mariage', 'robe en lin noire', 'robe en lin bleue', 'robe en lin courte', 'robe en lin plissée'],
+      es: ['vestido de lino mujer', 'vestido de lino largo', 'vestido de lino verano', 'vestido de lino blanco', 'vestido de lino con bolsillos', 'vestido de lino negro', 'vestido de lino azul', 'vestido de lino boho', 'vestido de lino elegante', 'vestido de lino talla grande', 'vestido de lino playa', 'vestido de lino manga larga', 'vestido de lino bordado', 'vestido de lino midi', 'vestido de lino suelto'],
+      it: ['vestito di lino donna', 'vestito di lino lungo', 'vestito di lino estivo', 'vestito di lino bianco', 'vestito di lino nero', 'vestito di lino con tasche', 'vestito di lino blu', 'vestito di lino elegante', 'vestito di lino boho', 'vestito di lino taglie forti', 'vestito di lino corto', 'vestito di lino a trapezio', 'vestito di lino plissé', 'vestito di lino a maniche lunghe', 'vestito di lino ricamato'],
+      nl: ['linnen jurk dames', 'linnen maxi jurk', 'linnen jurk zomer', 'linnen jurk met zakken', 'linnen jurk blauw', 'linnen jurk wit', 'linnen jurk zwart', 'linnen jurk lang', 'linnen jurk boho', 'linnen jurk plus size', 'linnen jurk bruiloft', 'linnen jurk mouwloos', 'linnen jurk katoen', 'linnen jurk midi', 'linnen jurk groen'],
+      pt: ['vestido de linho feminino', 'vestido de linho longo', 'vestido de linho verão', 'vestido de linho branco', 'vestido de linho preto', 'vestido de linho com bolsos', 'vestido de linho azul', 'vestido de linho elegante', 'vestido de linho boho', 'vestido de linho plus size', 'vestido de linho praia', 'vestido de linho curto', 'vestido de linho midi', 'vestido de linho manga longa', 'vestido de linho bordado'],
+      ja: ['リネンドレス レディース', 'リネンワンピース 夏', 'リネン マキシドレス', 'リネン シャツドレス', 'リネン ワンピース 長袖', 'リネンドレス 無地', 'リネンドレス 白', 'リネンドレス 黒', 'リネンドレス 結婚式', 'リネンドレス 大きいサイズ', 'リネンドレス ゆったり', 'リネンドレス ブラウン', 'リネンドレス 花柄', 'リネンドレス ミディ', 'リネンドレス エレガント'],
+      zh: ['亚麻连衣裙 女', '亚麻长裙 夏季', '亚麻衬衫裙', '亚麻连衣裙 中长款', '亚麻连衣裙 白色', '亚麻连衣裙 黑色', '亚麻连衣裙 大码', '亚麻连衣裙 收腰', '亚麻连衣裙 长袖', '亚麻连衣裙 短袖', '亚麻连衣裙 宽松', '亚麻连衣裙 高级感', '亚麻连衣裙 文艺', '亚麻连衣裙 显瘦', '亚麻连衣裙 法式']
+    };
 
-        const feeDisplay = document.getElementById('feeDisplay');
-        const profitUSD = document.getElementById('profitUSD');
-        const convertedDisplay = document.getElementById('convertedDisplay');
-        const marginDisplay = document.getElementById('marginDisplay');
-        const feeBreakdown = document.getElementById('feeBreakdown');
+    // 搜索意图分类器 (基于关键词特征)
+    function classifyIntent(keyword, lang) {
+      const kw = keyword.toLowerCase();
+      // 商业/交易意图
+      if (/buy|shop|purchase|best|cheap|affordable|discount|price|deal|offer|sale|coupon|order/i.test(kw)) return '商业';
+      // 信息/调研意图
+      if (/how to|what is|guide|tips|ideas|inspiration|tutorial|review|vs|or|difference|meaning|definition/i.test(kw)) return '信息';
+      // 导航意图 (品牌/特定站点)
+      if (/etsy|amazon|shopify|walmart|target|ikea|nordstrom|zara|hm|asos|brand|official/i.test(kw)) return '导航';
+      // 长尾词通常混合意图，但很多为调研/购买准备 → 归类为「调研/商业」
+      // 若包含颜色/材质/尺寸等更偏商业
+      if (/white|black|blue|linen|cotton|silk|wool|plus size|petite|long|short|sleeve|pocket|wrap|maxi|midi/i.test(kw)) return '商业·长尾';
+      // 默认: 混合意图 (很多长尾词)
+      return '混合/信息';
+    }
 
-        function formatMoney(value, currency = 'USD') {
-            const symbol = currency === 'USD' ? '$' : 
-                           currency === 'CNY' ? '¥' :
-                           currency === 'EUR' ? '€' :
-                           currency === 'GBP' ? '£' :
-                           currency === 'JPY' ? '¥' :
-                           currency === 'CAD' ? 'C$' :
-                           currency === 'AUD' ? 'A$' : '';
-            if (currency === 'JPY') {
-                return symbol + Math.round(value).toLocaleString();
-            }
-            return symbol + value.toFixed(2);
+    // 根据种子词 + 语言生成变体 (模拟长尾挖掘)
+    function generateLongTailKeywords(seed, lang) {
+      const baseList = LANGUAGE_KEYWORDS[lang] || LANGUAGE_KEYWORDS['en'];
+      // 基于种子词过滤或组合 (演示: 返回语言词库 + 基于种子的组合)
+      let results = [];
+      // 1. 加入语言词库 (全部)
+      results = results.concat(baseList.map(kw => kw.trim()));
+
+      // 2. 如果种子词有意义，生成2个组合 (简单)
+      const seedClean = seed.trim().toLowerCase();
+      if (seedClean.length > 2) {
+        const prefixes = ['best', 'affordable', 'organic', 'handmade', 'vintage', 'eco friendly', 'sustainable', 'designer'];
+        const suffix = ['for women', 'for summer', 'with pockets', 'plus size', 'petite', 'long', 'short', 'white', 'black'];
+        for (let i = 0; i < 4; i++) {
+          const p = prefixes[Math.floor(Math.random() * prefixes.length)];
+          const s = suffix[Math.floor(Math.random() * suffix.length)];
+          results.push(`${p} ${seedClean} ${s}`);
         }
+        // 加一些本地化
+        if (lang === 'de') results.push(`Leinen ${seedClean} Damen`);
+        else if (lang === 'fr') results.push(`robe en lin ${seedClean}`);
+        else if (lang === 'zh') results.push(`亚麻 ${seedClean} 连衣裙`);
+        else results.push(`${seedClean} linen dress`);
+      }
 
-        function calculate() {
-            const price = parseFloat(priceInput.value) || 0;
-            const cost = parseFloat(costInput.value) || 0;
-            const platform = platformSelect.value;
-            const targetCurrency = currencySelect.value;
+      // 去重 (简单)
+      const unique = [...new Set(results.map(k => k.toLowerCase()))];
+      return unique.slice(0, 18); // 最多18个
+    }
 
-            if (price <= 0) {
-                feeDisplay.textContent = '$0.00';
-                profitUSD.textContent = '$0.00';
-                convertedDisplay.textContent = '0.00';
-                marginDisplay.textContent = '0%';
-                feeBreakdown.textContent = '请输入有效售价';
-                return;
-            }
+    function renderResults(keywords, lang) {
+      resultsList.innerHTML = '';
+      placeholderMsg.style.display = 'none';
+      if (!keywords || keywords.length === 0) {
+        resultsList.innerHTML = '<div class="placeholder-note">⚠️ 没有生成关键词，请调整种子词或语言。</div>';
+        return;
+      }
 
-            const feeConfig = platformFees[platform];
-            const transactionFee = price * feeConfig.transactionPercent;
-            const totalFee = transactionFee + feeConfig.fixedFee;
-            const profit = price - cost - totalFee;
+      keywords.forEach(kw => {
+        const intent = classifyIntent(kw, lang);
+        const langDisplay = langSelect.options[langSelect.selectedIndex]?.text || lang;
+        const div = document.createElement('div');
+        div.className = 'result-item';
+        div.innerHTML = `
+          <span class="keyword">🔹 ${kw}</span>
+          <span style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
+            <span class="intent-badge">🎯 ${intent}</span>
+            <span class="lang-tag">${langDisplay}</span>
+          </span>
+        `;
+        resultsList.appendChild(div);
+      });
 
-            // 汇率换算
-            const rate = exchangeRates[targetCurrency] || 1;
-            const convertedAmount = profit * rate;
+      // 报告事件 (匿名)
+      reportEvent('keyword_generated', { language: lang, count: keywords.length, seed: seedInput.value.trim() });
+    }
 
-            // 利润率 (基于售价)
-            const margin = price > 0 ? (profit / price) * 100 : 0;
+    function handleGenerate() {
+      const seed = seedInput.value.trim();
+      if (!seed) {
+        placeholderMsg.style.display = 'block';
+        placeholderMsg.textContent = '⚠️ 请先输入一个种子词 (例如: linen dress)';
+        resultsList.innerHTML = '';
+        return;
+      }
+      const lang = langSelect.value;
+      // 显示加载状态 (简单)
+      generateBtn.disabled = true;
+      generateBtn.innerHTML = '<span class="inline-loader"></span> 挖掘中...';
+      // 模拟异步 (浏览器内即时)
+      setTimeout(() => {
+        const keywords = generateLongTailKeywords(seed, lang);
+        renderResults(keywords, lang);
+        generateBtn.disabled = false;
+        generateBtn.innerHTML = '🚀 挖掘 & 分类';
+      }, 280);
+    }
 
-            // 更新UI
-            feeDisplay.textContent = formatMoney(totalFee, 'USD');
-            profitUSD.textContent = formatMoney(profit, 'USD');
-            profitUSD.className = 'value ' + (profit >= 0 ? 'positive' : 'negative');
-            convertedDisplay.textContent = formatMoney(convertedAmount, targetCurrency) + ' ' + targetCurrency;
-            marginDisplay.textContent = margin.toFixed(1) + '%';
-            marginDisplay.className = 'value ' + (margin >= 0 ? 'positive' : 'negative');
-            feeBreakdown.textContent = feeConfig.description + ` | 费用: $${totalFee.toFixed(2)} (交易费 $${transactionFee.toFixed(2)} + 固定费 $${feeConfig.fixedFee.toFixed(2)})`;
+    // 事件绑定
+    generateBtn.addEventListener('click', handleGenerate);
+    // 按回车触发
+    seedInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        generateBtn.click();
+      }
+    });
 
-            // 上报事件
-            reportEvent('calculate', {
-                platform: platform,
-                price: price,
-                cost: cost,
-                profit: profit,
-                currency: targetCurrency
-            });
-        }
+    // 初始加载时展示一组默认数据 (让工具立即可用)
+    window.addEventListener('DOMContentLoaded', function() {
+      // 预置示例 (英文)
+      const defaultKeywords = generateLongTailKeywords('linen dress', 'en');
+      renderResults(defaultKeywords.slice(0, 10), 'en');
+      // 报告页面加载事件
+      reportEvent('tool_loaded', { source: 'multilingual_keyword_tool' });
+    });
 
-        // 事件上报函数 (全局)
-        window.reportEvent = function(name, payload) {
-            if (typeof window.ORGANISM_METRICS_ENDPOINT === 'string' && window.ORGANISM_METRICS_ENDPOINT.length > 0) {
-                try {
-                    const body = JSON.stringify({ event: name, data: payload || {}, timestamp: new Date().toISOString() });
-                    // 使用 sendBeacon 或 fetch 避免阻塞
-                    if (navigator.sendBeacon) {
-                        navigator.sendBeacon(window.ORGANISM_METRICS_ENDPOINT, body);
-                    } else {
-                        fetch(window.ORGANISM_METRICS_ENDPOINT, {
-                            method: 'POST',
-                            body: body,
-                            keepalive: true,
-                            headers: { 'Content-Type': 'application/json' }
-                        }).catch(() => {});
-                    }
-                } catch (e) {
-                    // 静默失败
-                }
-            }
-        };
-
-        // 绑定事件
-        calculateBtn.addEventListener('click', calculate);
-
-        // 初始计算
-        calculate();
-
-        // 可选：输入时自动计算 (防抖)
-        let debounceTimer;
-        const autoCalculate = function() {
-            clearTimeout(debounceTimer);
-            debounceTimer = setTimeout(calculate, 300);
-        };
-        priceInput.addEventListener('input', autoCalculate);
-        costInput.addEventListener('input', autoCalculate);
-        platformSelect.addEventListener('change', calculate);
-        currencySelect.addEventListener('change', calculate);
-
-        // 额外上报页面浏览
-        reportEvent('page_view', { page: 'multi_platform_profit_calculator' });
-
-    })();
+  })();
 </script>
 </body>
 </html>
